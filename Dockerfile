@@ -1,6 +1,7 @@
-FROM golang:1.12.0-alpine3.9
-RUN mkdir /app
-ADD . /app
+FROM golang:1.22
 WORKDIR /app
-RUN go build -o main .
-CMD ["/app/main"]
+COPY ./ /app
+RUN go build main.go -o /main
+EXPOSE 8080
+EXPOSE 3000
+CMD ["/main"]
