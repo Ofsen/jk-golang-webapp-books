@@ -1,7 +1,8 @@
-FROM golang:1.22.0
+FROM golang:1.19.8
 WORKDIR /app
 COPY ./ /app
-RUN go build -o /main
+RUN go mod tidy
+RUN go mod download github.com/josharian/intern
+RUN go build -x -v -o /main
 EXPOSE 8080
-EXPOSE 3000
 CMD ["/main"]
