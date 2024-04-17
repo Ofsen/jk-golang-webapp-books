@@ -4,7 +4,7 @@
 pipeline {
      environment {
        ID_DOCKER = "${ID_DOCKER_PARAMS}"
-       IMAGE_NAME = "website-karma"
+       IMAGE_NAME = "jk-golang-webapp-books"
        IMAGE_TAG = "latest"
      }
      agent none
@@ -24,7 +24,7 @@ pipeline {
                  sh '''
                     echo "Clean Environment"
                     docker rm -f $IMAGE_NAME || echo "container does not exist"
-                    docker run --name $IMAGE_NAME -d -p ${PORT_EXPOSED}:80 -e PORT=80 ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG
+                    docker run --name $IMAGE_NAME -d -p ${PORT_EXPOSED}:8080 -e PORT=8080 ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG
                     sleep 5
                  '''
                }
@@ -35,7 +35,7 @@ pipeline {
            steps {
               script {
                 sh '''
-                    curl http://127.0.0.1:${PORT_EXPOSED} | grep -q "Deals of the Week"
+                    curl http://127.0.0.1:${PORT_EXPOSED} | grep -q "vuejs-webapp-sample"
                 '''
               }
            }
@@ -73,7 +73,7 @@ pipeline {
             }
       agent any
       environment {
-          RENDER_STAGING_DEPLOY_HOOK = credentials('website-karma-staging')
+          RENDER_STAGING_DEPLOY_HOOK = credentials('jk-golang-webapp-books-staging')
       }  
       steps {
           script {
@@ -93,7 +93,7 @@ pipeline {
             }
       agent any
       environment {
-          RENDER_PRODUCTION_DEPLOY_HOOK = credentials('website-karma-production')
+          RENDER_PRODUCTION_DEPLOY_HOOK = credentials('jk-golang-webapp-books-production')
       }  
       steps {
           script {
