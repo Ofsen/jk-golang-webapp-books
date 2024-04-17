@@ -1,8 +1,8 @@
-FROM golang:1.19.8
+FROM golang:1.22.2-alpine3.19
 WORKDIR /app
-COPY ./ /app
-RUN go mod tidy
-RUN go mod download github.com/josharian/intern
-RUN go build -x -v -o /main
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN go build -o jk-golang-webapp-books .
 EXPOSE 8080
-CMD ["/main"]
+CMD ["./jk-golang-webapp-books"]
